@@ -1,9 +1,9 @@
-function [x] = projX(x,max,min)
+function [x] = projX(x,uBound,lBound)
 %PROJX Summary of this function goes here
 %   Detailed explanation goes here
     for i=1:4
-        x(i,t+1) = min(max,x(i,t+1));
-        x(i,t+1) = max(min,x(i,t+1));
+        x = min(uBound,x);
+        x = max(lBound,x);
     end
 end
 
