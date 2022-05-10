@@ -20,16 +20,20 @@ T = 50;
 q = 0.6;
 c = 0.1;
 eps = 1E-3;
-
+C2 = 1000000
 % Solve min_{x in X} [sum{i=1-->n} f_{i}(x) ]
 %                                  f_{i}(x) = ||x_i-v_i||^2
 
 % where i is a user and f is cost function
 % x is state in 
 
+
 for t=1:T-1
     gamma(t) = c*q^(t-1); % t-1 for index correction
-    zi(:,t) = (A*(x(:,t)+diag(randlap(n,100)))); % matrix prod solves sum.
+   
+    lambda = 2*sqrt(n)*C2*c*q^(t-1)/eps   % parameter b_t [other formula then in the paper]
+    
+    zi(:,t) = (A*(x(:,t)+diag(randlap(n,lambda)))); % matrix prod solves sum.
 
     % mechanism
 %     in: x, t
@@ -44,5 +48,5 @@ round(x(:,end),3)
 
 figure(1)
 plot(0:T-1,x,'-o')
-legend('x1','x2','x3','x4')
+legend('x1','x2','x3','x4','x5','x6','x7','x8')
 %axis([0 6 0 1])
