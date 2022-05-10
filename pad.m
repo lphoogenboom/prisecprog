@@ -1,9 +1,9 @@
 clear; clear path; clc; clf;
 %% Notes and in-prog code
-addpath('./funcs/')
+addpath('/Users/floriskrijgsman/SPC/prisecprog/funcs')
 
-n = 4; % user count 
-v = [0.1 0.5 0.4 0.2]';
+n = 8; % user count 
+v = [0.1 0.5 0.4 0.2 0.1 0.5 0.4 0.2]';
 T = 50;
 
 zi = zeros(n,T);
@@ -11,10 +11,10 @@ gamma = zeros(1,T);
 
 %A = ones(n,n)/4; % user connectivity !row&col sum =1!
 %A = [1/2 1/8 1/8 1/4; 1/8 1/8 1/4 1/2; 1/8 1/4 1/2 1/8; 1/4 1/2 1/8 1/8]; % unequal connectivity
-A = magic(4); A = A/sum(A(1,:)); 
+A = magic(n); A = A/sum(A(1,:)); 
 
 x = zeros(n,T); %initial states of users
-x(:,1) = [0.6 .4 .9 0]';
+x(:,1) = [0.6 .4 .9 0 -0.3 -0.5 -0.2 -0.1]';
 
 T = 50;
 q = 0.6;
@@ -29,11 +29,11 @@ eps = 1E-3;
 
 for t=1:T-1
     gamma(t) = c*q^(t-1); % t-1 for index correction
-    zi(:,t) = (A*(x(:,t)+diag(randlap(4,100)))); % matrix prod solves sum.
+    zi(:,t) = (A*(x(:,t)+diag(randlap(n,100)))); % matrix prod solves sum.
 
     % mechanism
 %     in: x, t
-%         addative noise
+%         additive noise
 %     out: y
 
     x(:,t+1) = zi(:,t)-gamma(t)*fgrad(x(:,t),v);
@@ -44,5 +44,5 @@ round(x(:,end),3)
 
 figure(1)
 plot(0:T-1,x,'-o')
-legend("x1","x2","x3","x4")
+legend('x1','x2','x3','x4')
 %axis([0 6 0 1])
