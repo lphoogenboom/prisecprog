@@ -32,10 +32,7 @@ for t=1:T-1
     zi(:,t) = (A*x(:,t)); % matrix prod solves sum.
 
     x(:,t+1) = zi(:,t)-gamma(t)*fgrad(x(:,t),v);
-    for i=1:4
-        x(i,t+1) = min(1,x(i,t+1));
-        x(i,t+1) = max(-1,x(i,t+1));
-    end
+    x = projX(x,1,-1);
 end
 
 figure(1)
