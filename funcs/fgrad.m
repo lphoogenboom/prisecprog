@@ -3,4 +3,3 @@ function gradient = fgrad(x,v)
     diff = x-v;
     gradient = 2*sum(diff);
 end
-
