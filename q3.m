@@ -19,7 +19,7 @@ x(:,1) = [0.6 .4 .9 0 0.4 0.7 0.1 0.5]';
 
 T = 50;
 q = 0.6;
-c = 0.1;
+c = 1;
 
 for t=1:T-1
     gamma(t) = c*q^(t-1); % t-1 for index correction
