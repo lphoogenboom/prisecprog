@@ -9,9 +9,9 @@ T = 50;
 zi = zeros(n,T);
 gamma = zeros(1,T);
 
-A = ones(n,n)/4; % user connectivity !row&col sum =1!
+% A = ones(n,n)/4; % user connectivity !row&col sum =1!
 %A = [1/2 1/8 1/8 1/4; 1/8 1/8 1/4 1/2; 1/8 1/4 1/2 1/8; 1/4 1/2 1/8 1/8]; % unequal connectivity
-%A = magic(n); A = A/sum(A(1,:)); 
+A = magic(n); A = A/sum(A(1,:)); 
 
 x = zeros(n,T); %initial states of users
 x(:,1) = [0.6 .4 .9 0]';
@@ -33,10 +33,9 @@ for t=1:T-1
 
     lambda = 2*sqrt(n)*C2*c*q^(t-1)/eps;   % parameter b_t [other formula then in the paper]
     
-    p = 1; % FIXME: slection of p not understood
+    p = .95; % FIXME: slection of p not understood
     
     lambda = 2*C2*sqrt(n)*c*p^(t)/(eps*(p-q));
-    lambda = sqrt(2000);
 
     zi(:,t) = (A*(x(:,t)+diag(randlap(4,lambda)))); % matrix prod solves sum.
 

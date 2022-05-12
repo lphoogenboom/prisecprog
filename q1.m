@@ -11,8 +11,7 @@ gamma = zeros(1,T);
 
 % A = ones(n,n)/4; % user connectivity !row&col sum =1!
 %A = [1/2 1/8 1/8 1/4; 1/8 1/8 1/4 1/2; 1/8 1/4 1/2 1/8; 1/4 1/2 1/8 1/8]; % unequal connectivity
-A = magic(n); % random connectivity
-A = A/sum(A(1,:)); 
+A = magic(n); A = A/sum(A(1,:)); 
 
 x = zeros(n,T); %initial states of users
 x(:,1) = [0.6 .4 .9 0]';

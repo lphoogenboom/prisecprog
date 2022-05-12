@@ -9,9 +9,9 @@ T = 50;
 zi = zeros(n,T);
 gamma = zeros(1,T);
 
-A = ones(n,n)/n; % user connectivity !row&col sum =1!
+% A = ones(n,n)/n; % user connectivity !row&col sum =1!
 %A = [1/2 1/8 1/8 1/4; 1/8 1/8 1/4 1/2; 1/8 1/4 1/2 1/8; 1/4 1/2 1/8 1/8]; % unequal connectivity
-% A = magic(n); A = A/sum(A(1,:)); 
+A = magic(n); A = A/sum(A(1,:)); 
 
 x = zeros(n,T); %initial states of users
 x(:,1) = [0.6 .4 .9 0 -0.3 -0.5 -0.2 -0.1]';
@@ -20,7 +20,7 @@ T = 50;
 q = 0.6;
 c = 1;
 eps = 1E-3;
-C2 = 10;
+C2 = 2.2;
 % Solve min_{x in X} [sum{i=1-->n} f_{i}(x) ]
 %                                  f_{i}(x) = ||x_i-v_i||^2
 
@@ -32,9 +32,9 @@ for t=1:T-1
     gamma(t) = c*q^(t-1); % t-1 for index correction
    
     lambda = 2*sqrt(n)*C2*c*q^(t-1)/eps;   % parameter b_t [other formula then in the paper]
-    p = 0.61;
+    p = 0.85;
     lambda = 2*C2*sqrt(n)*c*p^(t)/(eps*(p-q));
-    lambda = sqrt(2000);
+
     
     zi(:,t) = (A*(x(:,t)+diag(randlap(n,lambda)))); % matrix prod solves sum.
 
