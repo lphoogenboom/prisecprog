@@ -32,7 +32,7 @@ for t=1:T-1
     gamma(t) = c*q^(t-1); % t-1 for index correction
    
     lambda = 2*sqrt(n)*C2*c*q^(t-1)/eps;   % parameter b_t [other formula then in the paper]
-    p = 0.85;
+    p = 0.90;
     lambda = 2*C2*sqrt(n)*c*p^(t)/(eps*(p-q));
 
     
