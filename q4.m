@@ -32,7 +32,7 @@ for t=1:T-1
     gamma(t) = c*q^(t-1); % t-1 for index correction
    
     lambda = 2*sqrt(n)*C2*c*q^(t-1)/eps;   % parameter b_t [other formula then in the paper]
-    p = 0.90;
+    p = 0.87;
     lambda = 2*C2*sqrt(n)*c*p^(t)/(eps*(p-q));
 
     
@@ -47,11 +47,30 @@ for t=1:T-1
     x(:,t+1) = projX(x(:,t+1),1,-1);
 end
 
+
+%% plot
 abs(round(x(:,end),3)-.3)
 
-figure(2)
+figure(2); clf; hold on;
+% subplot(1,2,1); hold on;
 plot(0:T-1,x,'-o')
-lgd.Layout.Tile = 'southeast';
-legend('x1','x2','x3','x4','x5','x6','x7','x8','Location','northeastoutside')
 
-%axis([0 6 0 1])
+vh = 0.3*ones(1,length(x));
+plot(0:T-1,vh,"r--")
+legend('x_1','x_2','x_3','x_4', 'x_5','x_6','x_7','x_8',"$v_{avg}$",'interpreter','latex')
+
+title("values of x per iteration")
+xlabel("Iterations")
+ylabel("values of x")
+
+% subplot(1,2,2); hold on; grid on;
+% plot(0:T-1,x,'-o')
+% 
+% vh = 0.3*ones(1,length(x));
+% plot(0:T-1,vh,"r--")
+% axis([30 50 .2 .4])
+% legend('x_1','x_2','x_3','x_4', 'x_5','x_6','x_7','x_8',"$v_{avg}$",'interpreter','latex')
+% 
+% title("values of x per iteration")
+% xlabel("Iterations")
+% ylabel("values of x")

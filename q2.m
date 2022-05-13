@@ -29,14 +29,10 @@ C2 = 2.2;
 % x is state in 
 
 for t=1:T-1
-    gamma(t) = c*q^(t-1); % t-1 for index correction
-
-    lambda = 2*sqrt(n)*C2*c*q^(t-1)/eps;   % parameter b_t [other formula then in the paper]
-    
+    gamma(t) = c*q^(t-1); % t-1 for index correction 
     p = .95; % FIXME: slection of p not understood
     
     lambda = 2*C2*sqrt(n)*c*p^(t)/(eps*(p-q));
-
     zi(:,t) = (A*(x(:,t)+diag(randlap(4,lambda)))); % matrix prod solves sum.
 
 
@@ -46,12 +42,27 @@ end
 
 abs(round(x(:,end),3)-.3)
 
-figure(1)
-subplot(1,2,1)
+%% plot
+figure(1); hold on;
+% subplot(1,2,1); hold on;
+title("Values of x_i over iterations")
 plot(0:T-1,x,'-o')
+
 xlabel("iterations")
-subplot(1,2,2)
-plot(gamma,x,'-o')
-xlabel("gamma")
-legend('x1','x2','x3','x4')
-%axis([0 6 0 1])
+ylabel("values of x_i")
+
+vh = 0.3*ones(1,length(x));
+plot(0:T-1,vh,"r--")
+legend('x_1','x_2','x_3','x_4','$v_{avg}$','interpreter','latex')
+axis([0 50 0 1])
+
+% subplot(1,2,2); hold on;
+% title("Values of x_i over iterations")
+% plot(0:T-1,x,'-o')
+% 
+% xlabel("iterations")
+% ylabel("values of x_i")
+% 
+% plot(0:T-1,vh,"r--")
+% legend('x_1','x_2','x_3','x_4','$v_{avg}$','interpreter','latex')
+% axis([0 10 0 1])

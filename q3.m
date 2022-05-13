@@ -28,7 +28,16 @@ for t=1:T-1
     x(:,t+1) = projX(x(:,t+1),1,-1);
 end
 
-figure(1)
+%% plot
+figure(1); hold on;
 plot(0:T-1,x,'-o')
-legend('x1','x2','x3','x4', 'x5','x6','x7','x8')
-axis([0 20 0 1])
+
+axis([0 20 -1 1])
+
+title("values of x per iteration")
+xlabel("Iterations")
+ylabel("values of x")
+
+vh = 0.3*ones(1,length(x));
+plot(0:T-1,vh,"r--")
+legend('x_1','x_2','x_3','x_4', 'x_5','x_6','x_7','x_8',"$v_{avg}$",'interpreter','latex')
