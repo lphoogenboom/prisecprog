@@ -8,51 +8,66 @@ n = 3
 rho = 1
 public_key, private_key = paillier.generate_paillier_keypair()
 timer = np.zeros([1,maxIter])
-x = np.zeros([n,maxIter])
-print_x = np.zeros([n,maxIter])
+#x = np.zeros([n,maxIter])
+x = []
+u = []
+print_x = []
 q = np.ones((n))
-u = np.zeros([n,maxIter])
+
+
 avg = np.zeros([1,maxIter]) 
 
 avg = [[public_key.encrypt(float(x)) for x in y] for y in avg][0] # Global variable must be encrypted
 
-x[:,0] = np.array([1, .3, .1])
-print_x[:,0] = x[:,0]
-u = -x
+
+x.append([1, .3, .1])
+print_x.append([1, .3, .1])
+u.append([-1, -.3, -.1])
 
 
 for k in range(maxIter-1):
+    print("iteration: ", k)
     timerInit = time()
-    print(private_key.decrypt(avg[k]))
+    
+    a = []
+    
     for i in range(n):
-        print(u[i,k],"  q: ", q[i])
-        a = avg[k]-u[i,k]
-        b = rho*a
-        c = 2*q[i] + rho
-        d = b/c
-        x[i,k+1] = d
-        #x[i,k+1] = rho*(avg[k]-u[i,k])/(2*q[i] + rho)
-    #x[:, k+1] = [private_key.decrypt(x) for x in x[:,k+1]]
-    print_x[:, k+1] = x[:, k+1]
-    print(avg)
-    print(avg[int(0),int(k+1)])
-    avg[0,k+1] = np.mean(x[:,k+1]) # Waarom is dit geen som? dat staat nmlk in de tekst
-    avg = [[public_key.encrypt(float(x)) for x in y] for y in avg]
-    for i in range(n):
-        u[i,k+1] = u[i,k]+x[i,k+1]-avg[0,k+1]
+        a.append(rho*(avg[k]-u[k][i])/(2*q[i] + rho)) 
+    
+    x.append(a)
+    
+    # Trusted party
+    save_x = [private_key.decrypt(x) for x in x[k+1]]
+    print_x.append(save_x)
+    avg[k+1] = sum(x[k+1])/len(x[k+1])
+    
+    b = []
+    # update to parties
+    for i in range(n):        
+        b.append(u[k][i] + x[k+1][i]-avg[k+1])
+    u.append(b) 
+
     timer[0,k] = timerInit-time()
-avg[0,0] = np.mean(x[:,0])
 
 
+avg = [private_key.decrypt(x) for x in avg]
 t = np.linspace(0,17,18)
 
 plt.figure()
 plt.title('State Evolution')
 plt.xlabel('time')
 plt.ylabel('state')
-plt.plot(t,x[0,:],t,x[1,:],t,x[2,:],t,avg[0,:])
+agent_1 = []
+agent_2 = []
+agent_3 = []
+for i in range(len(print_x)):
+    agent_1.append(print_x[i][0])
+    agent_2.append(print_x[i][1])
+    agent_3.append(print_x[i][2])
+    
+plt.plot(t, agent_1, t, agent_2, t, agent_3, t, avg)
 plt.axis([0, 17, 0, 1])
-plt.savefig('plainX.png')
+plt.savefig('Paillier.png')
 
 plt.figure()
 plt.title('Iteration Speed')
@@ -60,4 +75,4 @@ plt.xlabel('Iteration')
 plt.ylabel('Duration [microseconds]')
 plt.plot(t,-1E6*timer[0,:])
 plt.axis([0, 16, 0, 60])
-plt.savefig('plainTimer.png')
+plt.savefig('PailierTimer.png')
