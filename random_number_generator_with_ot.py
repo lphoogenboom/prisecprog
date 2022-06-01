@@ -13,28 +13,38 @@ from random import seed
 from random import random
 from ot import Alice, Bob
 
+def random_number_generator():
+    secrets = [b'-5', b'2.', b'3.']
+    
+    alice = Alice(secrets, 1, len(secrets[0]))
+    #agent_2 = Alice(secrets, 1, len(secrets[0]))
+    #agent_3 = Alice(secrets, 1, len(secrets[0]))
+    alice.setup()
+    
+    agent_1 = Bob([0])
+    agent_2 = Bob([1])
+    agent_3 = Bob([2])
+    agent_1.setup()
+    alice.transmit()
+    a = agent_1.receive()
+    r_1 = float(a[0].decode("utf-8"))
+    
+    agent_2.setup()
+    alice.transmit()
+    b = agent_2.receive()
+    r_2 = float(b[0].decode("utf-8"))
+    
+    agent_3.setup()
+    alice.transmit()
+    c = agent_3.receive()
+    r_3 = float(c[0].decode("utf-8"))
+    return r_1, r_2, r_3
 
-secrets = [b'-5', b'2.', b'3.']
-
-alice = Alice(secrets, 1, len(secrets[0]))
-#agent_2 = Alice(secrets, 1, len(secrets[0]))
-#agent_3 = Alice(secrets, 1, len(secrets[0]))
-alice.setup()
-
-agent_1 = Bob([0])
-agent_2 = Bob([1])
-agent_3 = Bob([2])
-agent_1.setup()
-alice.transmit()
-a = agent_1.receive()
-r_1 = float(a[0].decode("utf-8"))
-
-agent_2.setup()
-alice.transmit()
-b = agent_2.receive()
-r_2 = float(b[0].decode("utf-8"))
-
-agent_3.setup()
-alice.transmit()
-c = agent_3.receive()
-r_3 = float(c[0].decode("utf-8"))
+#char2seed('Snow')
+#x <- rnorm(100)
+#rnorm(10)
+#tmp <- char2seed('Snow',set=FALSE)
+#set.seed(tmp)
+#y <- rnorm(100)
+#
+#all.equal(x,y) # should be true
