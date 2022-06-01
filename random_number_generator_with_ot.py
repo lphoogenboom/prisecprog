@@ -5,12 +5,7 @@ Created on Tue May 31 21:50:37 2022
 
 @author: floriskrijgsman
 """
-# random number generator with OT scheme
-# it is a bit far fetched but it does the job I guess
 
-
-from random import seed
-from random import random
 from ot import Alice, Bob
 
 def random_number_generator():
@@ -39,12 +34,3 @@ def random_number_generator():
     c = agent_3.receive()
     r_3 = float(c[0].decode("utf-8"))
     return r_1, r_2, r_3
-
-#char2seed('Snow')
-#x <- rnorm(100)
-#rnorm(10)
-#tmp <- char2seed('Snow',set=FALSE)
-#set.seed(tmp)
-#y <- rnorm(100)
-#
-#all.equal(x,y) # should be true
