@@ -41,7 +41,24 @@ while (k<maxIter) and (concensus<3):
     for i in range(n):
         a.append(rho*(avg[k]-u[k][i])/(2*q[i] + rho)) #state update of x
     x.append(a) # append 3xk to 3x(k+1) (encrypted)
-    
+
+    # print_x.append(save_x)
+    avg[k+1] = sum(x[k+1])/len(x[k+1])
+
+    b = []
+    # update to parties
+    for i in range(n):        
+        b.append(u[k][i] + x[k+1][i]-avg[k+1])
+    u.append(b) 
+    timer.append(time()-timerInit)
+
+    concensus = 0
+    for i in range(n):
+        if abs(private_key.decrypt(x[-1][i]-avg[k+1]))<.001:
+            concensus+=1
+    if concensus==n:
+        print("concensus was acchieved at iteration: ", k)
+
     xDec = [[private_key.decrypt(i) for i in j] for j in x]
     agent_1 = []
     agent_2 = []
@@ -50,36 +67,25 @@ while (k<maxIter) and (concensus<3):
         agent_1.append(xDec[i][0])
         agent_2.append(xDec[i][1])
         agent_3.append(xDec[i][2])
+    xDec = []
+    avgDec = []
 
     if (k>0):
         ax.clear()
     t.append(k+1)
     ax = plt.plot(t,agent_1,t,agent_2,t,agent_3)
-
-    # print_x.append(save_x)
-    avg[k+1] = sum(x[k+1])/len(x[k+1])
-    avgDec = private_key.decrypt(avg[k+1])
-
-    concensus = 0
-    for i in range(n):
-        if (abs(xDec[-1][i])-avgDec)<.01:
-            concensus+=1
-    print("concensus :",concensus)
-    if concensus==n:
-        print("concensus was acchieved with initial states ", xDec[0])
-    xDec = []
-    avgDec = []
-
-    b = []
-    # update to parties
-    for i in range(n):        
-        b.append(u[k][i] + x[k+1][i]-avg[k+1])
-    u.append(b) 
-    timer.append(time()-timerInit)
+    # plt.show() uncomment this line to show plot at every iterate
     k+=1
+
+
+
+
+
+
 
 avg = [private_key.decrypt(y) for y in avg[0:k]]
 plt.plot(t[0:-1],avg) 
+plt.legend(["agent1","agent2","agent3","average"])
 plt.savefig('Paillier.png')
 
 plt.figure()
