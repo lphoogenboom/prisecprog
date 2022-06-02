@@ -29,6 +29,7 @@ u.append([-1, -.3, .1])
 
 plt.figure()
 
+
 xEnc = []
 k=0
 concensus = 0
@@ -74,18 +75,12 @@ while (k<maxIter) and (concensus<3):
         ax.clear()
     t.append(k+1)
     ax = plt.plot(t,agent_1,t,agent_2,t,agent_3)
-    # plt.show() uncomment this line to show plot at every iterate
+    plt.legend(["agent1","agent2","agent3","average"])
+    # plt.show() # uncomment this line to show plot at every iterate
     k+=1
-
-
-
-
-
-
 
 avg = [private_key.decrypt(y) for y in avg[0:k]]
 plt.plot(t[0:-1],avg) 
-plt.legend(["agent1","agent2","agent3","average"])
 plt.savefig('Paillier.png')
 
 plt.figure()
