@@ -12,14 +12,13 @@ def random_number_generator():
     secrets = [b'-5', b'2.', b'3.']
     
     alice = Alice(secrets, 1, len(secrets[0]))
-    #agent_2 = Alice(secrets, 1, len(secrets[0]))
-    #agent_3 = Alice(secrets, 1, len(secrets[0]))
     alice.setup()
     
     agent_1 = Bob([0])
     agent_2 = Bob([1])
     agent_3 = Bob([2])
     agent_1.setup()
+    
     alice.transmit()
     a = agent_1.receive()
     r_1 = float(a[0].decode("utf-8"))
