@@ -79,11 +79,11 @@ while (k<maxIter) and (concensus<3):
 avg = [private_key.decrypt(y) for y in avg[0:k]]
 plt.plot(t[0:-1],avg)
 plt.legend(["Agent 1","Agent 2","Agent 3", "Average"]) 
-plt.savefig('Paillier.png')
+plt.savefig('./graphics/Paillier.png')
 
 plt.figure()
 plt.title('Iteration Speed')
 plt.xlabel('Iteration')
 plt.ylabel('Duration [microseconds]')
 plt.plot(t[1:],timer)
-plt.savefig('PailierTimer.png')
+plt.savefig('./graphics/PailierTimer.png')

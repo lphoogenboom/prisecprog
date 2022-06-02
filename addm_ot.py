@@ -90,11 +90,11 @@ plt.ylabel('state')
 plt.plot(t, agent_1, t, agent_2, t, agent_3, t, avg)
 plt.legend(["Agent 1","Agent 2","Agent 3", "Average"])
 
-plt.savefig('OT.png')
+plt.savefig('./graphics/OT.png')
 
 plt.figure()
 plt.title('Iteration Speed')
 plt.xlabel('Iteration')
 plt.ylabel('Duration [seconds]')
 plt.plot(t, timer)
-plt.savefig('OT_Timer.png')
+plt.savefig('./graphics/OT_Timer.png')
